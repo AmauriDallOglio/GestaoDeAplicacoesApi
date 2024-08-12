@@ -1,4 +1,6 @@
 
+using GestaoDeAplicacoesApi.Swagger;
+
 namespace GestaoDeAplicacoesApi
 {
     public class Program
@@ -7,12 +9,16 @@ namespace GestaoDeAplicacoesApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AdicionaClassesSingleton();
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            //Api
+            builder.Services.InformacaoCabecalhoApi();
+            builder.Services.VersionamentoApi();
+            //  builder.Services.BotaoAutorizacaoToken();
 
             var app = builder.Build();
 
@@ -23,10 +29,23 @@ namespace GestaoDeAplicacoesApi
                 app.UseSwaggerUI();
             }
 
+
+
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseRouting();
 
+            app.UseSwagger();
+            app.UseCors();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.ConfiguracaoSwagger();
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
+
+            app.UseMiddleware<MiddlewareError>();
 
             app.MapControllers();
 
