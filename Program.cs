@@ -46,6 +46,7 @@ namespace GestaoDeAplicacoesApi
             //});
 
             app.UseMiddleware<MiddlewareError>();
+            app.UseMiddleware<ConfiguracaoRequisicaoBloqueaMiddleware>();
 
             app.MapControllers();
 

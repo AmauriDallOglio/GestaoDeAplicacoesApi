@@ -1,5 +1,5 @@
-﻿using System.Text;
-using static GestaoDeAplicacoesApi.Swagger.MiddlewareError;
+﻿using GestaoDeAplicacoesApi.Util;
+using System.Text;
 
 namespace GestaoDeAplicacoesApi.Swagger
 {
@@ -11,18 +11,17 @@ namespace GestaoDeAplicacoesApi.Swagger
 
             if (secret.Length < 32)
             {
-                throw new InvalidGrantException("Teste");
-                throw new ArgumentException("A chave secreta não localizada.");
+                throw new ExceptionCustomizado("A chave secreta não localizada!", "102");
             }
             return secret;
         }
 
         public static byte[] RetornaSecretASCII(string secret)
         {
-            var array = Encoding.ASCII.GetBytes(secret);
+            var array = Encoding.ASCII.GetBytes(secret);  
             if (array.Length < 32)
             {
-                throw new ArgumentException("A chave secreta deve ter pelo menos 256 bits (32 caracteres) para o algoritmo HMAC-SHA256.");
+                throw new ExceptionCustomizado("A chave secreta deve ter pelo menos 256 bits (32 caracteres) para o algoritmo HMAC-SHA256.", "103");
             }
             return array;
         }

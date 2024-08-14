@@ -15,9 +15,7 @@ namespace GestaoDeAplicacoesApi.Servico
             string secretString = ConfiguracaoAppSettings.RetornaSecret(configuration);
             byte[] secretASCII = ConfiguracaoAppSettings.RetornaSecretASCII(secretString);
 
-             
  
-
             var key = new SymmetricSecurityKey(secretASCII);
             string nomeUsuario = "Amauri D.";
             DateTime vencimentoToken = DateTime.Now.AddHours(3);
@@ -27,12 +25,10 @@ namespace GestaoDeAplicacoesApi.Servico
                 new Claim("NomeUsuario", nomeUsuario),
                 new Claim("token_type", "bearer"),
 
-
                 new Claim("UsuarioId", Guid.NewGuid().ToString()),
                 new Claim("VencimentoToken", vencimentoToken.ToString(), ClaimValueTypes.Integer64),
                 new Claim("DataGeracao", DateTime.Now.ToString(), ClaimValueTypes.Integer64),
                 new Claim("refresh_token", GerarRefreshToken()),
-
 
             };
 

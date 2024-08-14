@@ -1,19 +1,18 @@
 ﻿using GestaoDeAplicacoesApi.DTO;
 using GestaoDeAplicacoesApi.Interface;
 using Microsoft.AspNetCore.Mvc;
-using static GestaoDeAplicacoesApi.Swagger.MiddlewareError;
 
 namespace GestaoDeAplicacoesApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AutorizacaoController : Controller
+    public class AutenticacaoController : Controller
     {
         private readonly IAutorizacaoServico _iLoginServico;
         private readonly ITokenServico _iTokenServico;
         private readonly IConfiguration _configuration;
 
-        public AutorizacaoController(IAutorizacaoServico iLoginServico, ITokenServico iTokenServico, IConfiguration configuration)
+        public AutenticacaoController(IAutorizacaoServico iLoginServico, ITokenServico iTokenServico, IConfiguration configuration)
         {
             _iLoginServico = iLoginServico;
             _iTokenServico = iTokenServico;
@@ -30,11 +29,8 @@ namespace GestaoDeAplicacoesApi.Controllers
                 var token = _iTokenServico.GerarToken(usuarioId, _configuration);
                 return Ok(new { Token = token });
             }
-            if (model == null)
-            {
-                throw new InvalidGrantException("Usuário ou senha inválida!");
-            }
-            return Unauthorized("Usuário ou senha inválida!");
+
+            return Unauthorized("Sem autorização!");
         }
 
 
